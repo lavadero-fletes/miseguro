@@ -239,15 +239,7 @@ function render(x){
  </div>`;
  }
 
- html+=`
- <div class="sect">
-  <h3>Evolución de tu cuota mensual</h3>
-  ${bar("2025 · SC",x.c25,"f25","#6E9AD2")}
-  ${bar("2026 · SC",x.c26,"fsc","var(--sc-d)")}
-  ${bar("2027 · LS",x.c27,"fls","var(--ls-d)")}
-  <div class="foot-n">SC: San Cristóbal · LS: La Segunda. Premio de póliza — 2026: ${x.p26?money2(x.p26):"s/d"} (semestral) · 2027: ${x.p27?money2(x.p27):"s/d"} (anual).</div>
- </div>`;
-
+ // 1) Tu poliza nueva
  if(c){
   html+=`
  <div class="sect">
@@ -264,7 +256,39 @@ function render(x){
    <div><div class="k">Uso</div><div class="v">${c.uso||"—"}</div></div>
    <div><div class="k">Productor</div><div class="v">MARSH S.A.</div></div>
   </div>
- </div>
+ </div>`;
+ }else{
+  html+=`<div class="warn">El detalle de la póliza de esta patente está emitido por otra razón social (FLETES S.A.). Los valores de ahorro de arriba son los de la planilla de renovación — para el certificado completo consultá en administración.</div>`;
+ }
+
+ // 2) Tus documentos (descargas + personales)
+ html+=`
+ <div class="sect">
+  <h3>Tus documentos</h3>
+  ${c?`<div class="dlrow">
+   <a class="dl main" href="polizas/${x.pat}.pdf" target="_blank" rel="noopener"><span class="ic">📄</span><span>Póliza individual<div class="l2">PDF · certificado completo de tu vehículo</div></span></a>
+   <a class="dl" href="tarjetas/${x.pat}.pdf" target="_blank" rel="noopener"><span class="ic">🪪</span><span>Tarjeta de circulación<div class="l2">PDF · llevala en el auto o en el celular</div></span></a>
+  </div>`:""}
+  <div class="dlrow"${c?' style="margin-top:12px"':''}>
+   <div class="dl doc" id="doc-cedula"><span class="ic">🟩</span><span><b>Cédula verde/azul</b><div class="l2" id="doc-cedula-st">Consultando…</div><div class="docact" id="doc-cedula-act"></div></span></div>
+   <div class="dl doc" id="doc-licencia"><span class="ic">🚗</span><span><b>Licencia de conducir</b><div class="l2" id="doc-licencia-st">Consultando…</div><div class="docact" id="doc-licencia-act"></div></span></div>
+  </div>
+  <div class="foot-n">Subí una foto o PDF de tu cédula y tu licencia: quedan guardadas junto con tu póliza para tener todo en un solo lugar.</div>
+ </div>`;
+
+ // 3) Evolucion de la cuota (mas actual arriba)
+ html+=`
+ <div class="sect">
+  <h3>Evolución de tu cuota mensual</h3>
+  ${bar("2027 · LS",x.c27,"fls","var(--ls-d)")}
+  ${bar("2026 · SC",x.c26,"fsc","var(--sc-d)")}
+  ${bar("2025 · SC",x.c25,"f25","#6E9AD2")}
+  <div class="foot-n">LS: La Segunda · SC: San Cristóbal. Premio de póliza — 2026: ${x.p26?money2(x.p26):"s/d"} (semestral) · 2027: ${x.p27?money2(x.p27):"s/d"} (anual).</div>
+ </div>`;
+
+ // 4) Coberturas al final
+ if(c){
+  html+=`
  <div class="sect">
   <h3>Coberturas y sumas aseguradas</h3>
   <div style="overflow:auto"><table class="ctab"><thead><tr><th>Cobertura</th><th class="r">Suma</th><th class="r">Ajuste</th></tr></thead><tbody>
@@ -272,19 +296,7 @@ function render(x){
   </tbody></table></div>
   <div class="foot-n">Ajuste automático de suma asegurada: 30% según cláusula. Sumas expresadas en pesos.</div>
  </div>`;
- }else{
-  html+=`<div class="warn">El detalle de la póliza de esta patente está emitido por otra razón social (FLETES S.A.). Los valores de ahorro de arriba son los de la planilla de renovación — para el certificado completo y los documentos de esta unidad consultá en administración.</div>`;
  }
-
- html+=`
- <div class="sect">
-  <h3>Tus documentos personales</h3>
-  <div class="dlrow">
-   <div class="dl doc" id="doc-cedula"><span class="ic">🟩</span><span><b>Cédula verde/azul</b><div class="l2" id="doc-cedula-st">Consultando…</div><div class="docact" id="doc-cedula-act"></div></span></div>
-   <div class="dl doc" id="doc-licencia"><span class="ic">🚗</span><span><b>Licencia de conducir</b><div class="l2" id="doc-licencia-st">Consultando…</div><div class="docact" id="doc-licencia-act"></div></span></div>
-  </div>
-  <div class="foot-n">Subí una foto o PDF de tu cédula y tu licencia: quedan guardadas junto con tu póliza para tener todo en un solo lugar.</div>
- </div>`;
 
  html+=`<div class="printbar"><a class="btn" href="javascript:window.print()">🖨 Imprimir / guardar PDF de mi resumen</a></div>`;
  res.innerHTML=html;
@@ -324,11 +336,13 @@ function pintarDoc(pat,tipo,info){
 async function comprimirImagen(file){
  // fotos de celular: reescalar a max 1600px y JPEG para no superar el limite del servidor
  const img=await new Promise((ok,err)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=err;i.src=URL.createObjectURL(file)});
- const esc=Math.min(1,1600/Math.max(img.width,img.height));
+ const esc=Math.min(1,1400/Math.max(img.width,img.height));
  const cv=document.createElement("canvas");
  cv.width=Math.round(img.width*esc); cv.height=Math.round(img.height*esc);
  cv.getContext("2d").drawImage(img,0,0,cv.width,cv.height);
- const blob=await new Promise(ok=>cv.toBlob(ok,"image/jpeg",0.82));
+ let blob=await new Promise(ok=>cv.toBlob(ok,"image/jpeg",0.78));
+ // si sigue pesada, bajar calidad una vez mas
+ if(blob&&blob.size>850*1024) blob=await new Promise(ok=>cv.toBlob(ok,"image/jpeg",0.6));
  return blob||file;
 }
 async function subirDoc(pat,tipo,file){
@@ -336,7 +350,7 @@ async function subirDoc(pat,tipo,file){
  try{
   let blob=file, mime=file.type;
   if(mime.startsWith("image/")){ blob=await comprimirImagen(file); mime="image/jpeg"; }
-  if(blob.size>3.5*1024*1024){ st.textContent="El archivo es muy pesado (máx 3,5 MB)"; return; }
+  if(blob.size>880*1024){ st.textContent="El archivo es muy pesado. Probá con una foto en vez de un PDF."; return; }
   card.classList.add("subiendo"); st.textContent=`Subiendo tu ${DOC_LBL[tipo]}…`;
   const b64=await new Promise((ok,err)=>{const fr=new FileReader();fr.onload=()=>ok(fr.result.split(",")[1]);fr.onerror=err;fr.readAsDataURL(blob)});
   const r=await fetch(API_DOCS,{method:"POST",headers:{"Content-Type":"application/json"},
