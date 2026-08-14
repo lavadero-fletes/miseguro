@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consultá tu patente · Seguros 2026–2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+ --disp:"Inter",system-ui,sans-serif; --body:"Inter",system-ui,sans-serif;
+ --paper:#f0eee9; --card:#fbfaf8; --white:#fff; --ink:#33302b; --ink2:#5a554c; --mut:#8b857b;
+ --line:#e4dfd5; --line2:#d8d2c6; --cream:#f4f2ee;
+ --sc:#1560B0; --sc-d:#0F4585; --sc-bg:#eaf2fc; --sc-line:#cadcf5;
+ --ls:#E11A46; --ls-d:#B3123A; --ls-bg:#fdebf0; --ls-tint:#fff5f7; --ls-line:#f4c8d4;
+ --ok:#1d7a45; --ok-bg:#e8f5ec; --ok-line:#c4e3cf;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:760px;margin:0 auto;padding:26px 18px 70px}
+.tnum{font-variant-numeric:tabular-nums}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 1px 3px rgba(40,35,25,.05),0 8px 26px rgba(40,35,25,.05);overflow:hidden}
+/* top */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px;flex-wrap:wrap}
+.top .t{font-weight:700;font-size:13px;color:var(--ink2)}
+.top .t b{color:var(--ink)}
+.btn{font-size:12px;font-weight:700;padding:7px 14px;border-radius:8px;border:1px solid var(--line2);background:#fff;color:var(--ink);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{border-color:var(--mut)}
+/* hero search */
+.hero{text-align:center;padding:8px 0 4px}
+.hero h1{font-family:var(--disp);font-weight:800;font-size:30px;letter-spacing:-.02em;margin:0 0 6px}
+.hero p{color:var(--ink2);font-size:14px;margin:0 0 20px}
+.searchbox{position:relative;max-width:420px;margin:0 auto}
+#pat{width:100%;font-family:var(--disp);font-weight:800;font-size:26px;letter-spacing:.12em;text-align:center;text-transform:uppercase;padding:16px 18px;border-radius:14px;border:2px solid var(--line2);background:#fff;color:var(--ink);outline:none}
+#pat:focus{border-color:var(--ls)}
+#pat::placeholder{color:#c9c3b7;letter-spacing:.08em;font-weight:700}
+.sugg{position:absolute;left:0;right:0;top:calc(100% + 6px);background:#fff;border:1px solid var(--line2);border-radius:12px;box-shadow:0 10px 30px rgba(40,35,25,.13);z-index:5;overflow:hidden;text-align:left;display:none;max-height:290px;overflow-y:auto}
+.sugg.on{display:block}
+.sugg .it{padding:11px 15px;cursor:pointer;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.sugg .it:last-child{border-bottom:0}
+.sugg .it:hover,.sugg .it.sel{background:var(--ls-tint)}
+.sugg .p{font-family:var(--disp);font-weight:800;font-size:15px;letter-spacing:.06em}
+.sugg .m{font-size:11.5px;color:var(--mut);text-align:right;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hint{color:var(--mut);font-size:12px;margin-top:12px}
+.nores{margin:14px auto 0;max-width:420px;background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:14px;font-size:13px;color:var(--ink2);display:none}
+/* result */
+#res{display:none;margin-top:26px}
+.vhead{padding:20px 22px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center}
+.vhead .plate{font-family:var(--disp);font-weight:800;font-size:26px;letter-spacing:.1em;background:#fff;border:2px solid var(--ink);border-radius:9px;padding:4px 14px;display:inline-block}
+.vhead .veh{font-weight:800;font-size:15px;margin-top:8px}
+.vhead .who{color:var(--mut);font-size:12.5px;margin-top:2px}
+.bd{font-weight:800;font-size:11px;padding:5px 11px;border-radius:999px;white-space:nowrap}
+.bd-todo{background:var(--sc-bg);color:var(--sc-d)} .bd-completo{background:var(--ls-bg);color:var(--ls-d)} .bd-rc{background:#efece6;color:#5a554c}
+/* ahorro hero */
+.save{padding:22px;background:linear-gradient(180deg,var(--ok-bg),#fff);border-bottom:1px solid var(--line);text-align:center}
+.save .eyebrow{font-weight:700;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--mut);margin-bottom:8px}
+.save .big{font-family:var(--disp);font-weight:800;font-size:42px;line-height:1;color:var(--ok);letter-spacing:-.02em}
+.save .sub2{font-size:14px;color:var(--ink);margin-top:8px;font-weight:600}
+.save .sub2 b{color:var(--ok)}
+.save .comp{display:flex;justify-content:center;gap:26px;margin-top:16px;flex-wrap:wrap}
+.save .comp>div{min-width:120px}
+.save .cv{font-family:var(--disp);font-weight:800;font-size:19px}
+.save .cl{font-size:11px;color:var(--mut);margin-top:2px}
+.strike{text-decoration:line-through;text-decoration-color:var(--ls);text-decoration-thickness:2px;color:var(--ink2)}
+/* barras evolución */
+.sect{padding:18px 22px;border-bottom:1px solid var(--line)}
+.sect h3{font-family:var(--disp);font-weight:800;font-size:14px;margin:0 0 12px}
+.trk{display:grid;grid-template-columns:76px 1fr 104px;align-items:center;gap:10px;margin:7px 0}
+.trk .w{font-size:11px;font-weight:700;color:var(--mut)}
+.trk .rl{height:20px;background:#e7e2d8;border-radius:6px;overflow:hidden}
+.trk .fl{height:100%;border-radius:6px}
+.f25{background:linear-gradient(90deg,#9FBEE6,#6E9AD2)}
+.fsc{background:linear-gradient(90deg,#2E77CC,#0F4585)}
+.fls{background:linear-gradient(90deg,#EC3A61,#B3123A)}
+.trk .vl{text-align:right;font-weight:800;font-size:12.5px}
+.foot-n{font-size:11px;color:var(--mut);margin-top:10px}
+/* datos póliza */
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.pgrid>div{padding:11px 0;border-bottom:1px dashed var(--line2)}
+.pgrid .k{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+.pgrid .v{font-weight:700;font-size:13px;margin-top:2px;word-break:break-word}
+.pgrid .v.hl{color:var(--ls-d)}
+/* coberturas */
+.ctab{width:100%;border-collapse:collapse;font-size:12.5px}
+.ctab th{text-align:left;font-size:9.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--mut);font-weight:800;padding:8px 10px;background:var(--cream);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.ctab td{padding:8px 10px;border-bottom:1px solid #ece7dd;vertical-align:top}
+.ctab .r{text-align:right;font-weight:700;white-space:nowrap}
+.ctab tr.fq td{background:var(--ls-tint);font-weight:700;color:var(--ls-d)}
+.warn{margin:14px 22px;background:#fdf6e3;border:1px solid #ecd9a0;border-radius:10px;padding:12px 14px;font-size:12.5px;color:#7a5c00}
+/* descargas */
+.dlrow{display:flex;gap:12px;flex-wrap:wrap}
+.dl{flex:1;min-width:210px;display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;text-decoration:none;font-weight:800;font-size:13.5px;border:2px solid var(--line2);background:#fff;color:var(--ink)}
+.dl:hover{border-color:var(--mut)}
+.dl.main{background:var(--ls);border-color:var(--ls);color:#fff;box-shadow:0 4px 14px rgba(225,26,70,.25)}
+.dl.main:hover{background:var(--ls-d);border-color:var(--ls-d)}
+.dl .ic{font-size:22px;line-height:1}
+.dl .l2{font-size:10.5px;font-weight:600;opacity:.75;margin-top:2px}
+/* logo aseguradora */
+.segbox{display:flex;flex-direction:column;align-items:flex-end;gap:7px}
+.seglogo{height:36px;width:auto;background:#fff;border:1px solid var(--line);border-radius:10px;padding:6px 12px;box-shadow:0 1px 2px rgba(40,35,25,.06),0 3px 10px rgba(40,35,25,.06)}
+.segl{font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+/* cuota mensual protagonista */
+.cvmain{font-size:29px!important}
+.vig{font-size:11px;font-weight:700;color:var(--ink2);margin-top:3px}
+/* cards de cedula / licencia */
+.doc{cursor:default}
+.doc b{font-size:13.5px;display:block}
+.docact{margin-top:7px;font-size:12.5px;font-weight:800}
+.docact a{color:var(--ls-d);text-decoration:none}
+.docact a:hover{text-decoration:underline}
+.upl{color:var(--ls-d);cursor:pointer}
+.upl:hover{text-decoration:underline}
+.doc .ok-tag{color:var(--ok)}
+.doc.subiendo{opacity:.6;pointer-events:none}
+.foot{color:var(--mut);font-size:11.5px;margin-top:22px;line-height:1.7;text-align:center}
+.printbar{padding:16px 22px;text-align:center}
+@media(max-width:560px){
+ .hero h1{font-size:24px}
+ #pat{font-size:21px;padding:14px}
+ .save .big{font-size:34px}
+ .cvmain{font-size:25px!important}
+ .pgrid{grid-template-columns:1fr}
+ .vhead{display:block}
+ .vhead .bd{margin-top:10px;display:inline-block}
+ .segbox{align-items:flex-start;margin-top:12px}
+}
+@media print{
+ .hero,.top .btn,.printbar,.hint,.nores{display:none!important}
+ body{background:#fff}
+ .card{box-shadow:none}
+}
+</style></head>
+<body><div class="wrap">
+
+ <div class="top">
+  <div class="t"><b>Seguros 2026–2027</b> · renovación con La Segunda</div>
+  <a class="btn" href="https://lavadero-fletes.github.io/comparativa-seguros/">Ver análisis comparativo →</a>
+ </div>
+
+ <div class="hero">
+  <h1>Consultá tu patente</h1>
+  <p>Ingresá la patente de tu vehículo y mirá cuánto ahorrás con la nueva póliza y todos los datos de tu cobertura.</p>
+  <div class="searchbox">
+   <input id="pat" placeholder="AB123CD" autocomplete="off" spellcheck="false" maxlength="9">
+   <div class="sugg" id="sugg"></div>
+  </div>
+  <div class="hint">También podés buscar por nombre o modelo · 24 vehículos cargados</div>
+  <div class="nores" id="nores">No encontramos esa patente. Probá de nuevo o consultá en administración.</div>
+ </div>
+
+ <div id="res" class="card"></div>
+
+ <div class="foot">
+  Póliza <b>La Segunda Nº 58.936.127</b> · CASA OSLE S.A.C.I.F.I.Y.A. · vigencia 06/08/2026 – 06/08/2027 · productor MARSH S.A.<br>
+  Comparación contra la última cotización de San Cristóbal (2026, póliza semestral anualizada ×2). Documento informativo interno: ante cualquier diferencia vale lo que figura en la póliza emitida.
+ </div>
+
+</div>
+<script>
+const DATA=[{"pat":"AA495CM","dueno":"Soledad Osle","veh":"CHRYSLER JEEP RENEGADE 2.4 4X4 LONGITUDE AT","anio":2016,"c25":67595.22,"c26":99266.6,"p26":786789.45,"c27":66317.75,"p27":1051272.15,"cert":{"n":1,"plan":"SELECTO L2","tipo":"Terceros Completo","motor":"34350543","chasis":"98861142BHK073420","uso":"PARTICULAR","modeloPdf":"CHRYSLER JEEP RENEGADE 2.4 LONGIT","anioPdf":"2016","franq":null,"cob":[{"c":"RESPONSABILIDAD CIVIL","suma":"250.000.000","aj":""},{"c":"ACCIDENTE TOTAL","suma":"25.200.000","aj":"30%"},{"c":"INCENDIO TOTAL","suma":"25.200.000","aj":"30%"},{"c":"INCENDIO PARCIAL","suma":"25.200.000","aj":"30%"},{"c":"ROBO Y/O HURTO TOTAL","suma":"25.200.000","aj":"30%"},{"c":"ROBO Y/O HURTO PARCIAL","suma":"25.200.000","aj":"30%"},{"c":"MUERTE O INVALIDEZ TOTAL Y PERMANENTE DEL CONDUCTOR","suma":"650.000","aj":""},{"c":"DAÑOS PARCIALES POR GRANIZO HASTA","suma":"25.200.000","aj":""},{"c":"ROTURA DE LUNETAS Y PARABRISAS HASTA","suma":"25.200.000","aj":""},{"c":"ROTURA CERRADURAS Y CRISTALES LATERALES HASTA","suma":"25.200.000","aj":""},{"c":"REINTEGRO DAÑOS PARCIALES Y/O INCENDIO PARCIAL POR HALLAZGO HASTA","suma":"500.000","aj":""}]}},{"pat":"AC333LF","dueno":"Francisco Osle","veh":"PEUGEOT 208 1.6 GT","anio":2018,"c25":58742.57,"c26":83949.45,"p26":665385.36,"c27":56988.25,"p27":903380.37,"cert":{"n":2,"plan":"SELECTO L2","tipo":"Terceros Completo","motor":"10FJCF2338878","chasis":"936CL5GY8JB027965","uso":"PARTICULAR","modeloPdf":"PEUGEOT 208 1.6 GT","anioPdf":"2018","franq":null,"cob":[{"c":"RESPONSABILIDAD CIVIL","suma":"250.000.000","aj":""},{"c":"ACCIDENTE TOTAL","suma":"19.320.000","aj":"30%"},{"c":"INCENDIO TOTAL","suma":"19.320.000","aj":"30%"},{"c":"INCENDIO PARCIAL","suma":"19.320.000","aj":"30%"},{"c":"ROBO Y/O HURTO TOTAL","suma":"19.320.000","aj":"30%"},{"c":"ROBO Y/O HURTO PARCIAL","suma":"19.320.000","aj":"30%"},{"c":"MUERTE O INVALIDEZ TOTAL Y PERMANENTE DEL CONDUCTOR","suma":"650.000","aj":""},{"c":"DAÑOS PARCIALES POR GRANIZO HASTA","suma":"19.320.000","aj":""},{"c":"ROTURA DE LUNETAS Y PARABRISAS HASTA","suma":"19.320.000","aj":""},{"c":"ROTURA CERRADURAS Y CRISTALES LATERALES HASTA","suma":"19.320.000","aj":""},{"c":"REINTEGRO DAÑOS PARCIALES Y/O INCENDIO PARCIAL POR HALLAZGO HASTA","suma":"500.000","aj":""}]}},{"pat":"AC514WB","dueno":"Geronimo Gonzalez","veh":null,"anio":null,"c25":null,"c26":84502.36,"p26":669767.69,"c27":61467.08,"p27":974379.15},{"pat":"AC637CH","dueno":"Antonio Buonsignore","veh":"HONDA HR-V","anio":2018,"c25":0,"c26":171292.84,"p26":1357671.09,"c27":128285.24,"p27":2033583.76,"cert":{"n":3,"plan":"PRIVILEGIO L2","tipo":"Todo Riesgo","motor":"R15ZB8607391","chasis":"8C3RV1870J1607392","uso":"PARTICULAR","modeloPdf":"A.F.F. (JEEP)","anioPdf":"2018","franq":387900.0,"cob":[{"c":"RESPONSABILIDAD CIVIL","suma":"250.000.000","aj":""},{"c":"ACCIDENTE TOTAL","suma":"25.860.000","aj":"30%"},{"c":"ACCIDENTE PARCIAL","suma":"25.860.000","aj":"30%"},{"c":"con franquicia por evento","suma":"387.900","aj":""},{"c":"INCENDIO TOTAL","suma":"25.860.000","aj":"30%"},{"c":"INCENDIO PARCIAL","suma":"25.860.000","aj":"30%"},{"c":"ROBO Y/O HURTO TOTAL","suma":"25.860.000","aj":"30%"},{"c":"ROBO Y/O HURTO PARCIAL","suma":"25.860.000","aj":"30%"},{"c":"MUERTE O INVALIDEZ TOTAL Y PERMANENTE DEL CONDUCTOR","suma":"650.000","aj":""},{"c":"DAÑOS PARCIALES POR GRANIZO HASTA","suma":"25.860.000","aj":""},{"c":"ROTURA DE LUNETAS Y PARABRISAS HASTA","suma":"25.860.000","aj":""},{"c":"ROTURA CERRADURAS Y CRISTALES LATERALES HASTA","suma":"25.860.000","aj":""}]}},{"pat":"AD355IY","dueno":"Eduardo Osle","veh":"CHEVROLET TRAIL BLAZER 2.8 4X4 LTZ AUT L/17","anio":2019,"c25":75450.19,"c26":106415.43,"p26":843451.25,"c27":83810.58,"p27":1328569.25,"cert":{"n":4,"plan":"SELECTO L2","tipo":"Terceros Completo","motor":"LWNF182691174","chasis":"9BG156MK0KC429863","uso":"PARTICULAR","modeloPdf":"CHEVROLET TRAILBLAZER 2.8 4X4","anioPdf":"2019","franq":null,"cob":[{"c":"RESPONSABILIDAD CIVIL","suma":"250.000.000","aj":""},{"c":"ACCIDENTE TOTAL","suma":"36.225.000","aj":"30%"},{"c":"INCENDIO TOTAL","suma":"36.225.000","aj":"30%"},{"c":"INCENDIO PARCIAL","suma":"36.225.000","aj":"30%"},{"c":"ROBO Y/O HURTO TOTAL","suma":"36.225.000","aj":"30%"},{"c":"ROBO Y/O HURTO PARCIAL","suma":"36.225.000","aj":"30%"},{"c":"MUERTE O INVALIDEZ TOTAL Y PERMANENTE DEL CONDUCTOR","suma":"650.000","aj":""},{"c":"DAÑOS PARCIALES POR GRANIZO HASTA","suma":"36.225.000","aj":""},{"c":"ROTURA DE LUNETAS Y PARABRISAS HASTA","suma":"36.225.000","aj":""},{"c":"ROTURA CERRADURAS Y CRISTALES LATERALES HASTA","suma":"36.225.000","aj":""},{"c":"REINTEGRO DAÑOS PARCIALES Y/O INCENDIO PARCIAL POR HALLAZGO HASTA","suma":"500.000","aj":""}]}},{"pat":"AD627ES","dueno":"Eduardo Osle","veh":"CHRYSLER JEEP RENEGADE 1.8 4X2 LONGITUDE AT","anio":2019,"c25":60101.26,"c26":177204.57,"p26":1404527.62,"c27":120393.25,"p27":1908479.51,"cert":{"n":5,"plan":"PRIVILEGIO L2","tipo":"Todo Riesgo","motor":"3437884","chasis":"988611428KK233518","uso":"PARTICULAR","modeloPdf":"CHRYSLER JEEP RENEGADE 1.8 LONG","anioPdf":"2019","franq":374850.0,"cob":[{"c":"RESPONSABILIDAD CIVIL","suma":"250.000.000","aj":""},{"c":"ACCIDENTE TOTAL","suma":"24.990.000","aj":"30%"},{"c":"ACCIDENTE PARCIAL","suma":"24.990.000","aj":"30%"},{"c":"con franquicia por evento","suma":"374.850","aj":""},{"c":"INCENDIO TOTAL","suma":"24.990.000","aj":"30%"},{"c":"INCENDIO PARCIAL","suma":"24.990.000","aj":"30%"},{"c":"ROBO Y/O HURTO TOTAL","suma":"24.990.000","aj":"30%"},{"c":"ROBO Y/O HURTO PARCIAL","suma":"24.990.000","aj":"30%"},{"c":"MUERTE O INVALIDEZ TOTAL Y PERMANENTE DEL CONDUCTOR","suma":"650.000","aj":""},{"c":"DAÑOS PARCIALES POR GRANIZO HASTA","suma":"24.990.000","aj":""},{"c":"ROTURA DE LUNETAS Y PARABRISAS HASTA","suma":"24.990.000","aj":""},{"c":"ROTURA CERRADURAS Y CRISTALES LATERALES HASTA","suma":"24.990.000","aj":""}]}},{"pat":"AD999GU","dueno":"Soledad Osle","veh":"KIA CARNIVAL EX 2.2 AT CRDI","anio":2020,"c25":104561.32,"c26":156225.19,"p26":1238244.61,"c27":115464.26,"p27":1830344.96,"cert":{"n":6,"plan":"SELECTO L2","tipo":"Terceros Completo","motor":"D4HBJH616339","chasis":"KNHMF37ABL6582236","uso":"PARTICULAR","modeloPdf":"KIA CARNIVAL 2.2 EX L/19 CRDI","anioPdf":"2020","franq":null,"cob":[{"c":"RESPONSABILIDAD CIVIL","suma":"250.000.000","aj":""},{"c":"ACCIDENTE TOTAL","suma":"56.175.000","aj":"30%"},{"c":"INCENDIO TOTAL","suma":"56.175.000","aj":"30%"},{"c":"INCENDIO PARCIAL","suma":"56.175.000","aj":"30%"},{"c":"ROBO Y/O HURTO TOTAL","suma":"56.175.000","aj":"30%"},{"c":"ROBO Y/O HURTO PARCIAL","suma":"56.175.000","aj":"30%"},{"c":"MUERTE O INVALIDEZ TOTAL Y PERMANENTE DEL CONDUCTOR","suma":"650.000","aj":""},{"c":"DAÑOS PARCIALES POR GRANIZO HASTA","suma":"56.175.000","aj":""},{"c":"ROTURA DE LUNETAS Y PARABRISAS HASTA","suma":"56.175.000","aj":""},{"c":"ROTURA CERRADURAS Y CRISTALES LATERALES HASTA","suma":"56.175.000","aj":""},{"c":"REINTEGRO DAÑOS PARCIALES Y/O INCENDIO PARCIAL POR HALLAZGO HASTA","suma":"500.000","aj":""}]}},{"pat":"AE136BV","dueno":"Luis Osle","veh":"FORD ECO SPORT 1.5 SE AUT L/18","anio":2020,"c25":102010.94,"c26":133754.12,"p26":1060138.32,"c27":106780.95,"p27":1692696.69,"cert":{"n":7,"plan":"PRIVILEGIO L2","tipo":"Todo Riesgo","motor":"XZJAL8782942","chasis":"9BFZB55U6L8782942","uso":"PARTICULAR","modeloPdf":"FORD ECO SPORT 1.5 SE AUT L/18","anioPdf":"2020","franq":340000.0,"cob":[{"c":"RESPONSABILIDAD CIVIL","suma":"250.000.000","aj":""},{"c":"ACCIDENTE TOTAL","suma":"22.365.000","aj":"30%"},{"c":"ACCIDENTE PARCIAL","suma":"22.365.000","aj":"30%"},{"c":"con franquicia por evento","suma":"340.000","aj":""},{"c":"INCENDIO TOTAL","suma":"22.365.000","aj":"30%"},{"c":"INCENDIO PARCIAL","suma":"22.365.000","aj":"30%"},{"c":"ROBO Y/O HURTO TOTAL","suma":"22.365.000","aj":"30%"},{"c":"ROBO Y/O HURTO PARCIAL","suma":"22.365.000","aj":"30%"},{"c":"MUERTE O INVALIDEZ TOTAL Y PERMANENTE DEL CONDUCTOR","suma":"650.000","aj":""},{"c":"DAÑOS PARCIALES POR GRANIZO HASTA","suma":"22.365.000","aj":""},{"c":"ROTURA DE LUNETAS Y PARABRISAS HASTA","suma":"22.365.000","aj":""},{"c":"ROTURA CERRADURAS Y CRISTALES LATERALES HASTA","suma":"22.365.000","aj":""}]}},{"pat":"AE276BY","dueno":"Rodrigo Osle","veh":"TOYOTA ETIOS 1.5 5 PTAS XLS 6MT L/18","anio":2020,"c25":104156.0,"c26":145922.96,"p26":1156588.83,"c27":101306.32,"p27":1605912.63,"cert":{"n":8,"plan":"PRIVILEGIO L2","tipo":"Todo Riesgo","motor":"2NR4461837","chasis":"9BRK29BTXL0202257","uso":"PARTICULAR","modeloPdf":"TOYOTA ETIOS 1.5 5 PTAS XLS 6MT","anioPdf":"2020","franq":340000.0,"cob":[{"c":"RESPONSABILIDAD CIVIL","suma":"250.000.000","aj":""},{"c":"ACCIDENTE TOTAL","suma":"20.843.000","aj":"30%"},{"c":"ACCIDENTE PARCIAL","suma":"20.843.000","aj":"30%"},{"c":"con franquicia por evento","suma":"340.000","aj":""},{"c":"INCENDIO TOTAL","suma":"20.843.000","aj":"30%"},{"c":"INCENDIO PARCIAL","suma":"20.843.000","aj":"30%"},{"c":"ROBO Y/O HURTO TOTAL","suma":"20.843.000","aj":"30%"},{"c":"ROBO Y/O HURTO PARCIAL","suma":"20.843.000","aj":"30%"},{"c":"MUERTE O INVALIDEZ TOTAL Y PERMANENTE DEL CONDUCTOR","suma":"650.000","aj":""},{"c":"DAÑOS PARCIALES POR GRANIZO HASTA","suma":"20.843.000","aj":""},{"c":"ROTURA DE LUNETAS Y PARABRISAS HASTA","suma":"20.843.000","aj":""},{"c":"ROTURA CERRADURAS Y CRISTALES LATERALES HASTA","suma":"20.843.000","aj":""}]}},{"pat":"AE291SV","dueno":"Victoria Osle","veh":"VOLKSWAGEN POLO 1.6 L16 COM 4P TIP","anio":2020,"c25":83250.37,"c26":116754.47,"p26":925398.74,"c27":94695.05,"p27":1501110.36,"cert":{"n":9,"plan":"PRIVILEGIO L2","tipo":"Todo Riesgo","motor":"CWS519248","chasis":"9BWAL5BZ4LP014151","uso":"PARTICULAR","modeloPdf":"VW POLO 1.6 L/16 COM. 4 P TIP.","anioPdf":"2020","franq":340000.0,"cob":[{"c":"RESPONSABILIDAD CIVIL","suma":"250.000.000","aj":""},{"c":"ACCIDENTE TOTAL","suma":"19.005.000","aj":"30%"},{"c":"ACCIDENTE PARCIAL","suma":"19.005.000","aj":"30%"},{"c":"con franquicia por evento","suma":"340.000","aj":""},{"c":"INCENDIO TOTAL","suma":"19.005.000","aj":"30%"},{"c":"INCENDIO PARCIAL","suma":"19.005.000","aj":"30%"},{"c":"ROBO Y/O HURTO TOTAL","suma":"19.005.000","aj":"30%"},{"c":"ROBO Y/O HURTO PARCIAL","suma":"19.005.000","aj":"30%"},{"c":"MUERTE O INVALIDEZ TOTAL Y PERMANENTE DEL CONDUCTOR","suma":"650.000","aj":""},{"c":"DAÑOS PARCIALES POR GRANIZO HASTA","suma":"19.005.000","aj":""},{"c":"ROTURA DE LUNETAS Y PARABRISAS HASTA","suma":"19.005.000","aj":""},{"c":"ROTURA CERRADURAS Y CRISTALES LATERALES HASTA","suma":"19.005.000","aj":""}]}},{"pat":"AE565GA","dueno":"Soledad Osle","veh":"TOYOTA YARIS 1.5 5 PTAS XLS PACK CVT L/20","anio":2020,"c25":60419.11,"c26":89754.11,"p26":711393.19,"c27":68316.93,"p27":1082963.26,"cert":{"n":10,"plan":"SELECTO L2","tipo":"Terceros Completo","motor":"2NR4494744","chasis":"9BRKB3F36M8118897","uso":"PARTICULAR","modeloPdf":"TOYOTA YARIS 1.5 5 PTAS XLS PACK","anioPdf":"2020","franq":null,"cob":[{"c":"RESPONSABILIDAD CIVIL","suma":"250.000.000","aj":""},{"c":"ACCIDENTE TOTAL","suma":"26.460.000","aj":"30%"},{"c":"INCENDIO TOTAL","suma":"26.460.000","aj":"30%"},{"c":"INCENDIO PARCIAL","suma":"26.460.000","aj":"30%"},{"c":"ROBO Y/O HURTO TOTAL","suma":"26.460.000","aj":"30%"},{"c":"ROBO Y/O HURTO PARCIAL","suma":"26.460.000","aj":"30%"},{"c":"MUERTE O INVALIDEZ TOTAL Y PERMANENTE DEL CONDUCTOR","suma":"650.000","aj":""},{"c":"DAÑOS PARCIALES POR GRANIZO HASTA","suma":"26.460.000","aj":""},{"c":"ROTURA DE LUNETAS Y PARABRISAS HASTA","suma":"26.460.000","aj":""},{"c":"ROTURA CERRADURAS Y CRISTALES LATERALES HASTA","suma":"26.460.000","aj":""},{"c":"REINTEGRO DAÑOS PARCIALES Y/O INCENDIO PARCIAL POR HALLAZGO HASTA","suma":"500.000","aj":""}]}},{"pat":"AE682UG","dueno":"Marcelo Kelman","veh":"PEUGEOT 208 L/20 1.6 FELINE TIPTRONIC","anio":2021,"c25":105664.74,"c26":154046.98,"p26":1220980.04,"c27":108712.64,"p27":1723317.86,"cert":{"n":11,"plan":"PRIVILEGIO L2","tipo":"Todo Riesgo","motor":"10PRAB0003133","chasis":"8ADUWNFPVMG703028","uso":"PARTICULAR","modeloPdf":"PEUGEOT 208 L/20 1.6 FELINE TIPTONIC","anioPdf":"2021","franq":359100.0,"cob":[{"c":"RESPONSABILIDAD CIVIL","suma":"250.000.000","aj":""},{"c":"ACCIDENTE TOTAL","suma":"23.940.000","aj":"30%"},{"c":"ACCIDENTE PARCIAL","suma":"23.940.000","aj":"30%"},{"c":"con franquicia por evento","suma":"359.100","aj":""},{"c":"INCENDIO TOTAL","suma":"23.940.000","aj":"30%"},{"c":"INCENDIO PARCIAL","suma":"23.940.000","aj":"30%"},{"c":"ROBO Y/O HURTO TOTAL","suma":"23.940.000","aj":"30%"},{"c":"ROBO Y/O HURTO PARCIAL","suma":"23.940.000","aj":"30%"},{"c":"MUERTE O INVALIDEZ TOTAL Y PERMANENTE DEL CONDUCTOR","suma":"650.000","aj":""},{"c":"DAÑOS PARCIALES POR GRANIZO HASTA","suma":"23.940.000","aj":""},{"c":"ROTURA DE LUNETAS Y PARABRISAS HASTA","suma":"23.940.000","aj":""},{"c":"ROTURA CERRADURAS Y CRISTALES LATERALES HASTA","suma":"23.940.000","aj":""}]}},{"pat":"AE697BG","dueno":"Eduardo Osle","veh":"HYUNDAI CRETA 1.6 SAFETY AT PLUS","anio":2021,"c25":63312.7,"c26":93701.02,"p26":742676.51,"c27":82144.59,"p27":1302160.02,"cert":{"n":12,"plan":"SELECTO L2","tipo":"Terceros Completo","motor":"G4FGLU217332","chasis":"9BHGB812BNP227593","uso":"PARTICULAR","modeloPdf":"HYUNDAI CRETA 1.6 SAFETY AT PLUS","anioPdf":"2021","franq":null,"cob":[{"c":"RESPONSABILIDAD CIVIL","suma":"250.000.000","aj":""},{"c":"ACCIDENTE TOTAL","suma":"35.175.000","aj":"30%"},{"c":"INCENDIO TOTAL","suma":"35.175.000","aj":"30%"},{"c":"INCENDIO PARCIAL","suma":"35.175.000","aj":"30%"},{"c":"ROBO Y/O HURTO TOTAL","suma":"35.175.000","aj":"30%"},{"c":"ROBO Y/O HURTO PARCIAL","suma":"35.175.000","aj":"30%"},{"c":"MUERTE O INVALIDEZ TOTAL Y PERMANENTE DEL CONDUCTOR","suma":"650.000","aj":""},{"c":"DAÑOS PARCIALES POR GRANIZO HASTA","suma":"35.175.000","aj":""},{"c":"ROTURA DE LUNETAS Y PARABRISAS HASTA","suma":"35.175.000","aj":""},{"c":"ROTURA CERRADURAS Y CRISTALES LATERALES HASTA","suma":"35.175.000","aj":""},{"c":"REINTEGRO DAÑOS PARCIALES Y/O INCENDIO PARCIAL POR HALLAZGO HASTA","suma":"500.000","aj":""}]}},{"pat":"AE832YI","dueno":"Soledad Osle","veh":"VOLKSWAGEN AMAROK DC V6","anio":2021,"c25":106269.99,"c26":184323.1,"p26":486983.1,"c27":107008.4,"p27":1696302.21,"cert":{"n":13,"plan":"SELECTO L2","tipo":"Terceros Completo","motor":"DDX171109","chasis":"8AWDW22H0MA025150","uso":"PARTICULAR","modeloPdf":"VW AMAROK 30TD 4X4 DC AT 258HP","anioPdf":"2021","franq":null,"cob":[{"c":"RESPONSABILIDAD CIVIL","suma":"250.000.000","aj":""},{"c":"ACCIDENTE TOTAL","suma":"48.825.000","aj":"30%"},{"c":"INCENDIO TOTAL","suma":"48.825.000","aj":"30%"},{"c":"INCENDIO PARCIAL","suma":"48.825.000","aj":"30%"},{"c":"ROBO Y/O HURTO TOTAL","suma":"48.825.000","aj":"30%"},{"c":"ROBO Y/O HURTO PARCIAL","suma":"48.825.000","aj":"30%"},{"c":"MUERTE O INVALIDEZ TOTAL Y PERMANENTE DEL CONDUCTOR","suma":"650.000","aj":""},{"c":"DAÑOS PARCIALES POR GRANIZO HASTA","suma":"48.825.000","aj":""},{"c":"ROTURA DE LUNETAS Y PARABRISAS HASTA","suma":"48.825.000","aj":""},{"c":"ROTURA CERRADURAS Y CRISTALES LATERALES HASTA","suma":"48.825.000","aj":""},{"c":"REINTEGRO DAÑOS PARCIALES Y/O INCENDIO PARCIAL POR HALLAZGO HASTA","suma":"500.000","aj":""}]}},{"pat":"AF196IT","dueno":"Susana Sanchez","veh":"TOYOTA RAV 4 2.5 5P L/19 4X4 LIM.HYBRID","anio":2021,"c25":82998.96,"c26":124385.13,"p26":985879.51,"c27":114631.27,"p27":1817140.34,"cert":{"n":14,"plan":"SELECTO L2","tipo":"Terceros Completo","motor":"A25AR657367","chasis":"JTMDW3FV3MD112598","uso":"PARTICULAR","modeloPdf":"TOYOTA RAV 4 2.5 5 P L/19 4X4","anioPdf":"2021","franq":null,"cob":[{"c":"RESPONSABILIDAD CIVIL","suma":"250.000.000","aj":""},{"c":"ACCIDENTE TOTAL","suma":"55.650.000","aj":"30%"},{"c":"INCENDIO TOTAL","suma":"55.650.000","aj":"30%"},{"c":"INCENDIO PARCIAL","suma":"55.650.000","aj":"30%"},{"c":"ROBO Y/O HURTO TOTAL","suma":"55.650.000","aj":"30%"},{"c":"ROBO Y/O HURTO PARCIAL","suma":"55.650.000","aj":"30%"},{"c":"MUERTE O INVALIDEZ TOTAL Y PERMANENTE DEL CONDUCTOR","suma":"650.000","aj":""},{"c":"DAÑOS PARCIALES POR GRANIZO HASTA","suma":"55.650.000","aj":""},{"c":"ROTURA DE LUNETAS Y PARABRISAS HASTA","suma":"55.650.000","aj":""},{"c":"ROTURA CERRADURAS Y CRISTALES LATERALES HASTA","suma":"55.650.000","aj":""},{"c":"REINTEGRO DAÑOS PARCIALES Y/O INCENDIO PARCIAL POR HALLAZGO HASTA","suma":"500.000","aj":""}]}},{"pat":"AF411EM","dueno":"Pilar Osle","veh":"FIAT ARGO 1.8 PRECIS PK PREMIUM AT L/21","anio":2022,"c25":99792.11,"c26":144035.48,"p26":1141628.6,"c27":99778.03,"p27":1581686.14,"cert":{"n":15,"plan":"PRIVILEGIO L2","tipo":"Todo Riesgo","motor":"552732563863245","chasis":"9BD358A85PYM00791","uso":"PARTICULAR","modeloPdf":"FIAT ARGO 1.8 PRECIS PK PREMIUM","anioPdf":"2022","franq":359100.0,"cob":[{"c":"RESPONSABILIDAD CIVIL","suma":"250.000.000","aj":""},{"c":"ACCIDENTE TOTAL","suma":"23.940.000","aj":"30%"},{"c":"ACCIDENTE PARCIAL","suma":"23.940.000","aj":"30%"},{"c":"con franquicia por evento","suma":"359.100","aj":""},{"c":"INCENDIO TOTAL","suma":"23.940.000","aj":"30%"},{"c":"INCENDIO PARCIAL","suma":"23.940.000","aj":"30%"},{"c":"ROBO Y/O HURTO TOTAL","suma":"23.940.000","aj":"30%"},{"c":"ROBO Y/O HURTO PARCIAL","suma":"23.940.000","aj":"30%"},{"c":"MUERTE O INVALIDEZ TOTAL Y PERMANENTE DEL CONDUCTOR","suma":"650.000","aj":""},{"c":"DAÑOS PARCIALES POR GRANIZO HASTA","suma":"23.940.000","aj":""},{"c":"ROTURA DE LUNETAS Y PARABRISAS HASTA","suma":"23.940.000","aj":""},{"c":"ROTURA CERRADURAS Y CRISTALES LATERALES HASTA","suma":"23.940.000","aj":""}]}},{"pat":"AF575NR","dueno":"Javier Gutierrez","veh":"NISSAN FRONTIER L/22 2.3 DC 4X4","anio":2022,"c25":96331.08,"c26":130593.03,"p26":1035083.44,"c27":44576.66,"p27":706631.34,"cert":{"n":16,"plan":"SELECTO L2","tipo":"Terceros Completo","motor":"YS23A260C084324","chasis":"8ANBD33F4PL389133","uso":"PARTICULAR","modeloPdf":"NISSAN PICK-UP FRONTIER L/22","anioPdf":"2022","franq":null,"cob":[{"c":"RESPONSABILIDAD CIVIL","suma":"250.000.000","aj":""},{"c":"ACCIDENTE TOTAL","suma":"42.000.000","aj":"30%"},{"c":"INCENDIO TOTAL","suma":"42.000.000","aj":"30%"},{"c":"INCENDIO PARCIAL","suma":"42.000.000","aj":"30%"},{"c":"ROBO Y/O HURTO TOTAL","suma":"42.000.000","aj":"30%"},{"c":"ROBO Y/O HURTO PARCIAL","suma":"42.000.000","aj":"30%"},{"c":"MUERTE O INVALIDEZ TOTAL Y PERMANENTE DEL CONDUCTOR","suma":"650.000","aj":""},{"c":"DAÑOS PARCIALES POR GRANIZO HASTA","suma":"42.000.000","aj":""},{"c":"ROTURA DE LUNETAS Y PARABRISAS HASTA","suma":"42.000.000","aj":""},{"c":"ROTURA CERRADURAS Y CRISTALES LATERALES HASTA","suma":"42.000.000","aj":""},{"c":"REINTEGRO DAÑOS PARCIALES Y/O INCENDIO PARCIAL POR HALLAZGO HASTA","suma":"500.000","aj":""}]}},{"pat":"AF655YP","dueno":"Daniel Longo","veh":"RENAULT SANDERO PH2 INTENSE 1.6 TIPO S 5P","anio":2022,"c25":100440.78,"c26":139061.91,"p26":1102207.97,"c27":94464.55,"p27":1497456.54,"cert":{"n":17,"plan":"PRIVILEGIO L2","tipo":"Todo Riesgo","motor":"H4MJ759Q181850","chasis":"8A15SRYE5PL481754","uso":"PARTICULAR","modeloPdf":"RENAULT SANDERO STEPWAY PH2 1.6","anioPdf":"2022","franq":340000.0,"cob":[{"c":"RESPONSABILIDAD CIVIL","suma":"250.000.000","aj":""},{"c":"ACCIDENTE TOTAL","suma":"22.208.000","aj":"30%"},{"c":"ACCIDENTE PARCIAL","suma":"22.208.000","aj":"30%"},{"c":"con franquicia por evento","suma":"340.000","aj":""},{"c":"INCENDIO TOTAL","suma":"22.208.000","aj":"30%"},{"c":"INCENDIO PARCIAL","suma":"22.208.000","aj":"30%"},{"c":"ROBO Y/O HURTO TOTAL","suma":"22.208.000","aj":"30%"},{"c":"ROBO Y/O HURTO PARCIAL","suma":"22.208.000","aj":"30%"},{"c":"MUERTE O INVALIDEZ TOTAL Y PERMANENTE DEL CONDUCTOR","suma":"650.000","aj":""},{"c":"DAÑOS PARCIALES POR GRANIZO HASTA","suma":"22.208.000","aj":""},{"c":"ROTURA DE LUNETAS Y PARABRISAS HASTA","suma":"22.208.000","aj":""},{"c":"ROTURA CERRADURAS Y CRISTALES LATERALES HASTA","suma":"22.208.000","aj":""}]}},{"pat":"AG035HQ","dueno":"Arenas Velasco Constanza","veh":"TOYOTA YARIS 1.5 5 PTAS S CVT L/22","anio":2023,"c25":114241.71,"c26":160416.47,"p26":1271464.75,"c27":122116.27,"p27":1935792.95,"cert":{"n":18,"plan":"PRIVILEGIO L2","tipo":"Todo Riesgo","motor":"2NR4679974","chasis":"9BRKB3F32R8241586","uso":"PARTICULAR","modeloPdf":"A.F.F. (AUTO)","anioPdf":"2023","franq":496125.0,"cob":[{"c":"RESPONSABILIDAD CIVIL","suma":"250.000.000","aj":""},{"c":"ACCIDENTE TOTAL","suma":"33.075.000","aj":"30%"},{"c":"ACCIDENTE PARCIAL","suma":"33.075.000","aj":"30%"},{"c":"con franquicia por evento","suma":"496.125","aj":""},{"c":"INCENDIO TOTAL","suma":"33.075.000","aj":"30%"},{"c":"INCENDIO PARCIAL","suma":"33.075.000","aj":"30%"},{"c":"ROBO Y/O HURTO TOTAL","suma":"33.075.000","aj":"30%"},{"c":"ROBO Y/O HURTO PARCIAL","suma":"33.075.000","aj":"30%"},{"c":"MUERTE O INVALIDEZ TOTAL Y PERMANENTE DEL CONDUCTOR","suma":"650.000","aj":""},{"c":"DAÑOS PARCIALES POR GRANIZO HASTA","suma":"33.075.000","aj":""},{"c":"ROTURA DE LUNETAS Y PARABRISAS HASTA","suma":"33.075.000","aj":""},{"c":"ROTURA CERRADURAS Y CRISTALES LATERALES HASTA","suma":"33.075.000","aj":""}]}},{"pat":"AG498NM","dueno":"Luis Osle","veh":"TOYOTA COROLLA CROSS 1.8 XEI HV E-CVT","anio":2024,"c25":123601.79,"c26":187862.09,"p26":1488999.39,"c27":145075.3,"p27":2299740.48,"cert":{"n":19,"plan":"PRIVILEGIO L2","tipo":"Todo Riesgo","motor":"2ZR2X24306","chasis":"9BRBZ3BE0R4054776","uso":"PARTICULAR","modeloPdf":"TOYOTA COROLLA CROSS 1.8 XEI","anioPdf":"2024","franq":650475.0,"cob":[{"c":"RESPONSABILIDAD CIVIL","suma":"250.000.000","aj":""},{"c":"ACCIDENTE TOTAL","suma":"43.365.000","aj":"30%"},{"c":"ACCIDENTE PARCIAL","suma":"43.365.000","aj":"30%"},{"c":"con franquicia por evento","suma":"650.475","aj":""},{"c":"INCENDIO TOTAL","suma":"43.365.000","aj":"30%"},{"c":"INCENDIO PARCIAL","suma":"43.365.000","aj":"30%"},{"c":"ROBO Y/O HURTO TOTAL","suma":"43.365.000","aj":"30%"},{"c":"ROBO Y/O HURTO PARCIAL","suma":"43.365.000","aj":"30%"},{"c":"MUERTE O INVALIDEZ TOTAL Y PERMANENTE DEL CONDUCTOR","suma":"650.000","aj":""},{"c":"DAÑOS PARCIALES POR GRANIZO HASTA","suma":"43.365.000","aj":""},{"c":"ROTURA DE LUNETAS Y PARABRISAS HASTA","suma":"43.365.000","aj":""},{"c":"ROTURA CERRADURAS Y CRISTALES LATERALES HASTA","suma":"43.365.000","aj":""}]}},{"pat":"AH507IK","dueno":"Milagros Osle","veh":"KIA K3 1.6 CROSS GT-LINE AUT","anio":2025,"c25":111699.51,"c26":187900.09,"p26":1489300.59,"c27":130358.34,"p27":2066446.56,"cert":{"n":20,"plan":"PRIVILEGIO L2","tipo":"Todo Riesgo","motor":"G4FGSE021993","chasis":"3KPFD51ABSE107788","uso":"PARTICULAR","modeloPdf":"KIA K3 1.6 CROSS GT-LINE AUT","anioPdf":"2025","franq":601650.0,"cob":[{"c":"RESPONSABILIDAD CIVIL","suma":"250.000.000","aj":""},{"c":"ACCIDENTE TOTAL","suma":"40.110.000","aj":"30%"},{"c":"ACCIDENTE PARCIAL","suma":"40.110.000","aj":"30%"},{"c":"con franquicia por evento","suma":"601.650","aj":""},{"c":"INCENDIO TOTAL","suma":"40.110.000","aj":"30%"},{"c":"INCENDIO PARCIAL","suma":"40.110.000","aj":"30%"},{"c":"ROBO Y/O HURTO TOTAL","suma":"40.110.000","aj":"30%"},{"c":"ROBO Y/O HURTO PARCIAL","suma":"40.110.000","aj":"30%"},{"c":"MUERTE O INVALIDEZ TOTAL Y PERMANENTE DEL CONDUCTOR","suma":"650.000","aj":""},{"c":"DAÑOS PARCIALES POR GRANIZO HASTA","suma":"40.110.000","aj":""},{"c":"ROTURA DE LUNETAS Y PARABRISAS HASTA","suma":"40.110.000","aj":""},{"c":"ROTURA CERRADURAS Y CRISTALES LATERALES HASTA","suma":"40.110.000","aj":""}]}},{"pat":"MKC540","dueno":"Francisco Osle","veh":"VOLKSWAGEN BORA 1.8 T. HIGHLINE L/07","anio":2013,"c25":61398.81,"c26":98992.47,"p26":784616.67,"c27":60007.84,"p27":951247.13,"cert":{"n":21,"plan":"SELECTO L2","tipo":"Terceros Completo","motor":"AUQ708945","chasis":"3VWSE29M2DM008208","uso":"PARTICULAR","modeloPdf":"VW BORA 1.8 T. HIGHLINE L/07","anioPdf":"2013","franq":null,"cob":[{"c":"RESPONSABILIDAD CIVIL","suma":"250.000.000","aj":""},{"c":"ACCIDENTE TOTAL","suma":"16.170.000","aj":"30%"},{"c":"INCENDIO TOTAL","suma":"16.170.000","aj":"30%"},{"c":"INCENDIO PARCIAL","suma":"16.170.000","aj":"30%"},{"c":"ROBO Y/O HURTO TOTAL","suma":"16.170.000","aj":"30%"},{"c":"ROBO Y/O HURTO PARCIAL","suma":"16.170.000","aj":"30%"},{"c":"MUERTE O INVALIDEZ TOTAL Y PERMANENTE DEL CONDUCTOR","suma":"650.000","aj":""},{"c":"DAÑOS PARCIALES POR GRANIZO HASTA","suma":"16.170.000","aj":""},{"c":"ROTURA DE LUNETAS Y PARABRISAS HASTA","suma":"16.170.000","aj":""},{"c":"ROTURA CERRADURAS Y CRISTALES LATERALES HASTA","suma":"16.170.000","aj":""},{"c":"REINTEGRO DAÑOS PARCIALES Y/O INCENDIO PARCIAL POR HALLAZGO HASTA","suma":"500.000","aj":""}]}},{"pat":"POW659","dueno":"Soledad Osle","veh":"TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR","anio":2016,"c25":106269.99,"c26":152516.85,"p26":1208852.47,"c27":86183.6,"p27":1366186.6,"cert":{"n":22,"plan":"SELECTO L2","tipo":"Terceros Completo","motor":"1GD0056221","chasis":"8AJBA3CD6G1561876","uso":"PARTICULAR","modeloPdf":"TOYOTA HILUX L/16 2.8 DC 4X4","anioPdf":"2016","franq":null,"cob":[{"c":"RESPONSABILIDAD CIVIL","suma":"250.000.000","aj":""},{"c":"ACCIDENTE TOTAL","suma":"35.700.000","aj":"30%"},{"c":"INCENDIO TOTAL","suma":"35.700.000","aj":"30%"},{"c":"INCENDIO PARCIAL","suma":"35.700.000","aj":"30%"},{"c":"ROBO Y/O HURTO TOTAL","suma":"35.700.000","aj":"30%"},{"c":"ROBO Y/O HURTO PARCIAL","suma":"35.700.000","aj":"30%"},{"c":"MUERTE O INVALIDEZ TOTAL Y PERMANENTE DEL CONDUCTOR","suma":"650.000","aj":""},{"c":"DAÑOS PARCIALES POR GRANIZO HASTA","suma":"35.700.000","aj":""},{"c":"ROTURA DE LUNETAS Y PARABRISAS HASTA","suma":"35.700.000","aj":""},{"c":"ROTURA CERRADURAS Y CRISTALES LATERALES HASTA","suma":"35.700.000","aj":""},{"c":"REINTEGRO DAÑOS PARCIALES Y/O INCENDIO PARCIAL POR HALLAZGO HASTA","suma":"500.000","aj":""}]}},{"pat":"UQO423","dueno":"Aurelio Damian Osle","veh":"CHRYSLER COMANCHE","anio":1991,"c25":41183.55,"c26":67683.55,"p26":536461.4,"c27":23192.7,"p27":367651.72,"cert":{"n":23,"plan":null,"tipo":"Responsabilidad Civil","motor":"012HX04","chasis":"1JFT26P4ML559862","uso":"PARTICULAR","modeloPdf":"CHRYSLER COMANCHE","anioPdf":"1991","franq":null,"cob":[{"c":"RESPONSABILIDAD CIVIL","suma":"250.000.000","aj":""}]}}];
+const money=n=>"$"+Math.round(n).toLocaleString("es-AR");
+const money2=n=>"$"+n.toLocaleString("es-AR",{minimumFractionDigits:2,maximumFractionDigits:2});
+const bmap={ "Todo Riesgo":"bd-todo", "Terceros Completo":"bd-completo", "Responsabilidad Civil":"bd-rc" };
+const input=document.getElementById("pat"), sugg=document.getElementById("sugg"),
+      res=document.getElementById("res"), nores=document.getElementById("nores");
+let selIdx=-1, matches=[];
+
+function norm(s){return (s||"").toUpperCase().replace(/\s+/g," ").trim()}
+function filtro(q){
+ q=norm(q); if(!q) return [];
+ return DATA.filter(x=>(x.pat+" "+(x.veh||"")+" "+x.dueno).toUpperCase().includes(q)).slice(0,8);
+}
+function pintarSugg(){
+ if(!matches.length){sugg.classList.remove("on");return}
+ sugg.innerHTML=matches.map((x,i)=>`<div class="it${i===selIdx?" sel":""}" data-p="${x.pat}">
+  <span class="p">${x.pat}</span><span class="m">${x.veh||"Vehículo s/d"} · ${x.dueno}</span></div>`).join("");
+ sugg.classList.add("on");
+ sugg.querySelectorAll(".it").forEach(el=>el.addEventListener("mousedown",e=>{e.preventDefault();elegir(el.dataset.p)}));
+}
+input.addEventListener("input",()=>{
+ nores.style.display="none"; selIdx=-1;
+ matches=filtro(input.value); pintarSugg();
+ const exact=DATA.find(x=>x.pat===norm(input.value).replace(/\s/g,""));
+ if(exact) elegir(exact.pat,true);
+});
+input.addEventListener("keydown",e=>{
+ if(e.key==="ArrowDown"){selIdx=Math.min(selIdx+1,matches.length-1);pintarSugg();e.preventDefault()}
+ else if(e.key==="ArrowUp"){selIdx=Math.max(selIdx-1,0);pintarSugg();e.preventDefault()}
+ else if(e.key==="Enter"){
+  if(selIdx>=0&&matches[selIdx]) elegir(matches[selIdx].pat);
+  else if(matches.length===1) elegir(matches[0].pat);
+  else if(!matches.length){nores.style.display="block";res.style.display="none"}
+ }else if(e.key==="Escape"){sugg.classList.remove("on")}
+});
+document.addEventListener("click",e=>{if(!e.target.closest(".searchbox"))sugg.classList.remove("on")});
+
+function elegir(pat,keep){
+ const x=DATA.find(d=>d.pat===pat); if(!x) return;
+ if(!keep) input.value=pat;
+ sugg.classList.remove("on"); nores.style.display="none";
+ render(x); res.style.display="block";
+ res.scrollIntoView({behavior:"smooth",block:"start"});
+ try{history.replaceState(null,"","#"+pat)}catch(_){}
+}
+
+function render(x){
+ const pctM=x.c26&&x.c27?Math.round((1-x.c27/x.c26)*100):null;
+ const ahM=x.c26&&x.c27?x.c26-x.c27:null;
+ const scAnual=x.p26?x.p26*2:null;
+ const ahA=scAnual&&x.p27?scAnual-x.p27:null;
+ const pctA=scAnual&&x.p27?Math.round((1-x.p27/scAnual)*100):null;
+ const c=x.cert;
+ const maxc=Math.max(x.c25||0,x.c26||0,x.c27||0);
+ const bar=(lbl,v,cls,col)=>`<div class="trk"><span class="w">${lbl}</span><div class="rl">${v?`<div class="fl ${cls}" style="width:${(v/maxc*100).toFixed(1)}%"></div>`:""}</div><span class="vl tnum" style="color:${col}">${v?money(v):"s/d"}</span></div>`;
+
+ let html=`
+ <div class="vhead">
+  <div>
+   <span class="plate">${x.pat}</span>
+   <div class="veh">${x.veh||"Vehículo s/d"}${x.anio?" · "+x.anio:""}</div>
+   <div class="who">${x.dueno}</div>
+  </div>
+  <div class="segbox">
+   <img class="seglogo" src="lasegunda.png" alt="La Segunda Seguros">
+   <div class="segl">Tu seguro actual</div>
+   ${c?`<span class="bd ${bmap[c.tipo]||"bd-rc"}">${c.tipo}${c.plan?" · "+c.plan:""}</span>`:""}
+  </div>
+ </div>`;
+
+ if(pctM!==null&&ahM>0){
+  html+=`
+ <div class="save">
+  <div class="eyebrow">Tu ahorro con la nueva póliza</div>
+  <div class="big tnum">▼ ${pctM}%</div>
+  <div class="sub2">Ahorrás <b>${money(ahM)} por mes</b> respecto de la última cuota de San Cristóbal</div>
+  <div class="comp">
+   <div><div class="cv strike tnum">${money(x.c26)}</div><div class="cl">cuota mensual 2026 · San Cristóbal</div></div>
+   <div><div class="cl" style="margin-bottom:2px">Cuota mensual · La Segunda</div><div class="cv cvmain tnum" style="color:var(--ok)">${money(x.c27)}</div><div class="vig">vigencia hasta el 06/08/2027</div></div>
+   ${ahA&&ahA>0?`<div><div class="cv tnum" style="color:var(--ok)">${money(ahA)}</div><div class="cl">ahorro en el premio anual (▼ ${pctA}%)</div></div>`:""}
+  </div>
+ </div>`;
+ }
+
+ html+=`
+ <div class="sect">
+  <h3>Evolución de tu cuota mensual</h3>
+  ${bar("2025 · SC",x.c25,"f25","#6E9AD2")}
+  ${bar("2026 · SC",x.c26,"fsc","var(--sc-d)")}
+  ${bar("2027 · LS",x.c27,"fls","var(--ls-d)")}
+  <div class="foot-n">SC: San Cristóbal · LS: La Segunda. Premio de póliza — 2026: ${x.p26?money2(x.p26):"s/d"} (semestral) · 2027: ${x.p27?money2(x.p27):"s/d"} (anual).</div>
+ </div>`;
+
+ if(c){
+  html+=`
+ <div class="sect">
+  <h3>Tu póliza nueva · La Segunda</h3>
+  <div class="pgrid">
+   <div><div class="k">Póliza</div><div class="v">Nº 58.936.127</div></div>
+   <div><div class="k">Certificado</div><div class="v">Nº ${c.n}</div></div>
+   <div><div class="k">Vigencia</div><div class="v">06/08/2026 → 06/08/2027 (anual)</div></div>
+   <div><div class="k">Premio anual</div><div class="v hl tnum">${money2(x.p27)}</div></div>
+   <div><div class="k">Cobertura</div><div class="v">${c.tipo}${c.plan?" · Plan "+c.plan:""}</div></div>
+   ${c.franq?`<div><div class="k">Franquicia por evento</div><div class="v hl tnum">${money(c.franq)}</div></div>`:""}
+   <div><div class="k">Motor</div><div class="v">${c.motor||"—"}</div></div>
+   <div><div class="k">Chasis</div><div class="v">${c.chasis||"—"}</div></div>
+   <div><div class="k">Uso</div><div class="v">${c.uso||"—"}</div></div>
+   <div><div class="k">Productor</div><div class="v">MARSH S.A.</div></div>
+  </div>
+ </div>
+ <div class="sect">
+  <h3>Coberturas y sumas aseguradas</h3>
+  <div style="overflow:auto"><table class="ctab"><thead><tr><th>Cobertura</th><th class="r">Suma</th><th class="r">Ajuste</th></tr></thead><tbody>
+  ${c.cob.map(r=>`<tr${r.c.includes("franquicia")?' class="fq"':''}><td>${r.c.charAt(0)+r.c.slice(1).toLowerCase()}</td><td class="r tnum">$ ${r.suma}</td><td class="r">${r.aj||"—"}</td></tr>`).join("")}
+  </tbody></table></div>
+  <div class="foot-n">Ajuste automático de suma asegurada: 30% según cláusula. Sumas expresadas en pesos.</div>
+ </div>`;
+ }else{
+  html+=`<div class="warn">El detalle de la póliza de esta patente está emitido por otra razón social (FLETES S.A.). Los valores de ahorro de arriba son los de la planilla de renovación — para el certificado completo y los documentos de esta unidad consultá en administración.</div>`;
+ }
+
+ html+=`<div class="printbar"><a class="btn" href="javascript:window.print()">🖨 Imprimir / guardar PDF de mi resumen</a></div>`;
+ res.innerHTML=html;
+}
+
+// enlace directo #PATENTE
+const h=(location.hash||"").replace("#","").toUpperCase();
+if(h&&DATA.some(x=>x.pat===h)){input.value=h;elegir(h,true)}
+</script></body></html>
