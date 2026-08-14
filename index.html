@@ -161,14 +161,21 @@ const money=n=>"$"+Math.round(n).toLocaleString("es-AR");
 const money2=n=>"$"+n.toLocaleString("es-AR",{minimumFractionDigits:2,maximumFractionDigits:2});
 const bmap={ "Todo Riesgo":"bd-todo", "Terceros Completo":"bd-completo", "Responsabilidad Civil":"bd-rc" };
 const input=document.getElementById("pat"), sugg=document.getElementById("sugg"),
-      res=document.getElementById("res"), nores=document.getElementById("nores");
+      res=document.getElementById("res"), nores=document.getElementById("nores"),
+      hint=document.querySelector(".hint");
+const HINT_BASE="Escribí la patente completa, sin espacios ni guiones";
 let selIdx=-1, matches=[];
 
 function norm(s){return (s||"").toUpperCase().replace(/\s+/g," ").trim()}
+const MIN_Q=3;
+function limpio(q){return norm(q).replace(/[^A-Z0-9]/g,"")}
 function filtro(q){
- // Solo se busca por patente: los nombres de los titulares no se indexan
- q=norm(q).replace(/\s/g,""); if(q.length<3) return [];
- return DATA.filter(x=>x.pat.startsWith(q)).slice(0,8);
+ // Solo se busca por patente: los nombres de los titulares no se indexan.
+ // Desde 3 caracteres, coincidiendo en cualquier parte de la patente.
+ q=limpio(q); if(q.length<MIN_Q) return [];
+ const pre=DATA.filter(x=>x.pat.startsWith(q));
+ const resto=DATA.filter(x=>!x.pat.startsWith(q)&&x.pat.includes(q));
+ return pre.concat(resto).slice(0,8);
 }
 function pintarSugg(){
  if(!matches.length){sugg.classList.remove("on");return}
@@ -179,8 +186,14 @@ function pintarSugg(){
 }
 input.addEventListener("input",()=>{
  nores.style.display="none"; selIdx=-1;
- matches=filtro(input.value); pintarSugg();
- const exact=DATA.find(x=>x.pat===norm(input.value).replace(/\s/g,""));
+ const q=limpio(input.value);
+ matches=filtro(q); pintarSugg();
+ hint.textContent = q.length && q.length<MIN_Q
+   ? `Escribí ${MIN_Q-q.length} caracter${MIN_Q-q.length>1?"es":""} más para ver las sugerencias`
+   : HINT_BASE;
+ // sin resultados con 3 o mas caracteres: avisar sin esperar al Enter
+ if(q.length>=MIN_Q&&!matches.length){nores.style.display="block";res.style.display="none"}
+ const exact=DATA.find(x=>x.pat===q);
  if(exact) elegir(exact.pat,true);
 });
 input.addEventListener("keydown",e=>{
@@ -189,7 +202,7 @@ input.addEventListener("keydown",e=>{
  else if(e.key==="Enter"){
   if(selIdx>=0&&matches[selIdx]) elegir(matches[selIdx].pat);
   else if(matches.length===1) elegir(matches[0].pat);
-  else if(!matches.length){nores.style.display="block";res.style.display="none"}
+  else if(!matches.length&&limpio(input.value).length>=MIN_Q){nores.style.display="block";res.style.display="none"}
  }else if(e.key==="Escape"){sugg.classList.remove("on")}
 });
 document.addEventListener("click",e=>{if(!e.target.closest(".searchbox"))sugg.classList.remove("on")});
