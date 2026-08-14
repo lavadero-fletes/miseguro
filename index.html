@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive">
 <title>Consultá tu patente · Seguros 2026–2027</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -142,7 +143,7 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);l
    <input id="pat" placeholder="AB123CD" autocomplete="off" spellcheck="false" maxlength="9">
    <div class="sugg" id="sugg"></div>
   </div>
-  <div class="hint">También podés buscar por nombre o modelo · 24 vehículos cargados</div>
+  <div class="hint">Escribí la patente completa, sin espacios ni guiones</div>
   <div class="nores" id="nores">No encontramos esa patente. Probá de nuevo o consultá en administración.</div>
  </div>
 
@@ -165,13 +166,14 @@ let selIdx=-1, matches=[];
 
 function norm(s){return (s||"").toUpperCase().replace(/\s+/g," ").trim()}
 function filtro(q){
- q=norm(q); if(!q) return [];
- return DATA.filter(x=>(x.pat+" "+(x.veh||"")+" "+x.dueno).toUpperCase().includes(q)).slice(0,8);
+ // Solo se busca por patente: los nombres de los titulares no se indexan
+ q=norm(q).replace(/\s/g,""); if(q.length<3) return [];
+ return DATA.filter(x=>x.pat.startsWith(q)).slice(0,8);
 }
 function pintarSugg(){
  if(!matches.length){sugg.classList.remove("on");return}
  sugg.innerHTML=matches.map((x,i)=>`<div class="it${i===selIdx?" sel":""}" data-p="${x.pat}">
-  <span class="p">${x.pat}</span><span class="m">${x.veh||"Vehículo s/d"} · ${x.dueno}</span></div>`).join("");
+  <span class="p">${x.pat}</span><span class="m">${x.veh||"Vehículo s/d"}</span></div>`).join("");
  sugg.classList.add("on");
  sugg.querySelectorAll(".it").forEach(el=>el.addEventListener("mousedown",e=>{e.preventDefault();elegir(el.dataset.p)}));
 }
